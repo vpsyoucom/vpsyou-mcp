@@ -290,10 +290,12 @@ describe("help and skill", () => {
     const skillPath = join(repoRoot(dirname(fileURLToPath(import.meta.url))), "skills", "vpsyou-cn2-latency", "SKILL.md");
     const skill = readFileSync(skillPath, "utf8");
     assert.match(skill, /^---\nname: vpsyou-cn2-latency\ndescription: Use when /);
-    const commands = [...skill.matchAll(/node dist\/src\/cli\.js(?: [^\n`]+)?/g)].map((match) => match[0]);
+    assert.equal(skill.includes("node dist/src/cli.js"), false);
+    assert.equal(skill.includes("../../"), false);
+    const commands = [...skill.matchAll(/^vpsyou-cn2(?: [^\n`]+)?$/gm)].map((match) => match[0]);
     assert.ok(commands.length >= 5);
     for (const command of commands) {
-      const args = command.replace("node dist/src/cli.js", "").trim();
+      const args = command.replace(/^vpsyou-cn2\s*/, "").trim();
       const parsed = parseArgs(args.length === 0 ? ["--help"] : args.split(/\s+/));
       assert.ok(parsed.kind);
     }

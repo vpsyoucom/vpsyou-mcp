@@ -1,32 +1,39 @@
 ---
 name: vpsyou-cn2-latency
 description: Use when someone asks for VPSYOU CN2 latency or packet loss from the Guangdong probe, including the latest sample or a 24-hour or 7-day history for a listed test endpoint. Do not use for VPS provisioning, plan prices, or a global monitoring network.
+version: "0.1.1"
+metadata:
+  openclaw:
+    requires:
+      bins:
+        - node
+        - vpsyou-cn2
+    install:
+      - kind: node
+        package: vpsyou-cn2
+        bins:
+          - vpsyou-cn2
+    homepage: https://vpsyou.com
 ---
 
 # VPSYOU CN2 latency
 
 Read latency and packet loss from the hosted VPSYOU MCP server at `https://vpsyou.com/mcp`. The only tool is `get_cn2_latency`. Measurements come from one ICMP probe in Guangdong. This is not VPS management and not a global monitoring network.
 
-Use the `vpsyou-cn2` command. Do not call an undocumented HTTP API.
+Use the published `vpsyou-cn2` command. It is read-only. Do not call an undocumented HTTP API.
+
+This skill version is `0.1.1`, the same version as the published npm package `vpsyou-cn2@0.1.1`. That package requires Node.js 20 or newer. These instructions were checked against that package's command interface and <https://vpsyou.com/mcp-integration>. They were not verified by a signed-in call to the live tool.
+
+The longer connection record is <https://github.com/vpsyoucom/vpsyou-mcp/blob/main/docs/mcp.md>. The files in this directory are the skill. Their license is [LICENSE](LICENSE) (MIT-0) and applies only to this directory.
 
 ## Install
-
-Install the published npm package:
 
 ```sh
 npm install -g vpsyou-cn2
 vpsyou-cn2 --help
 ```
 
-The arguments below are the same after that install: replace `node dist/src/cli.js` with `vpsyou-cn2`. From a checkout of this repository:
-
-```sh
-npm install
-npm run build
-node dist/src/cli.js --help
-```
-
-Copy the `skills/vpsyou-cn2-latency` directory into the skills folder your agent host loads. This skill is not a marketplace listing.
+`node` and `vpsyou-cn2` must both be on `PATH`. Node.js must be version 20 or newer.
 
 ## Choose the query
 
@@ -37,35 +44,37 @@ Copy the `skills/vpsyou-cn2-latency` directory into the skills folder your agent
 - To select one endpoint, pass `--target` with an id from the server's current schema. The integration page's 24-hour and 7-day examples use `dmit-hkg` (DMIT Hong Kong). Run `targets` before using any other id.
 
 ```sh
-node dist/src/cli.js targets
-node dist/src/cli.js query
-node dist/src/cli.js query --window 24h --target dmit-hkg
-node dist/src/cli.js query --window 7d --target dmit-hkg --json
-node dist/src/cli.js query --json
+vpsyou-cn2 targets
+vpsyou-cn2 query
+vpsyou-cn2 query --window 24h --target dmit-hkg
+vpsyou-cn2 query --window 7d --target dmit-hkg --json
+vpsyou-cn2 query --json
 ```
 
 Run one query for the request. Do not schedule repeated queries or start a monitor.
 
 ## Sign in
 
-If the command exits with code 3, or it says no local sign-in is stored:
+Sign-in is OAuth on the user's own computer. The command stores the result in a user-only file and does not print it. If the command exits with code 3, or it says no local sign-in is stored:
 
-1. Ask the user to run this in their own terminal, from the checkout:
+1. Ask the user to run this in their own terminal:
 
 ```sh
-node dist/src/cli.js login
+vpsyou-cn2 login
 ```
 
 2. The user approves read-only `cn2:read` in the browser. The client may also request `offline_access` when the authorization server advertises it, because the client uses refresh tokens.
-3. Do not run `login` yourself. Do not ask for, copy, or repeat an access token, refresh token, client secret, authorization code, callback URL, or the credential file. The sign-in stays in the user's private config file.
+3. Do not run `login` yourself. Do not ask for, copy, or repeat an access token, refresh token, client secret, authorization code, callback URL, or the credential file.
 4. After the user says the browser step finished, run the same query again.
 
 `status` only reports whether that file exists. It does not check the sign-in with the server. `logout` deletes the file:
 
 ```sh
-node dist/src/cli.js status
-node dist/src/cli.js logout
+vpsyou-cn2 status
+vpsyou-cn2 logout
 ```
+
+`VPSYOU_CN2_CONFIG_DIR` may point at another private directory for that file. It does not change the MCP endpoint. The skill does not require that variable.
 
 ## Read the result
 
@@ -81,4 +90,4 @@ Prefer `--json` when you need to quote values.
 
 ## Sources
 
-The endpoint, OAuth scope, tool name, and windows are the ones published at <https://vpsyou.com/mcp-integration>. Target ids come from the signed-in server's `get_cn2_latency` input schema at the time of the command. Units and the single-probe limit are the server instructions and the integration page, checked for this client on 2026-11-21. The same record is in [docs/mcp.md](../../docs/mcp.md).
+The endpoint, OAuth scope, tool name, and windows are published at <https://vpsyou.com/mcp-integration>. Target ids come from the signed-in server's `get_cn2_latency` input schema at the time of the command. Units and the single-probe limit are the server instructions and that page, checked for this client on 2026-11-21.

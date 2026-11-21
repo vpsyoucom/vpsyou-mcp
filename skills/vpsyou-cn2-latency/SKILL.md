@@ -74,4 +74,4 @@ Prefer `--json` when you need to quote values.
 
 ## Sources
 
-The endpoint, OAuth scope, tool name, and windows are the ones published at <https://vpsyou.com/mcp-integration>. Target ids come from the signed-in server's `get_cn2_latency` input schema at the time of the command. Units and the single-probe limit are the server instructions and the integration page, checked for this client on 2026-11-21.
+The endpoint, OAuth scope, tool name, and windows are the ones published at <https://vpsyou.com/mcp-integration>. Target ids come from the signed-in server's `get_cn2_latency` input schema at the time of the command. Units and the single-probe limit are the server instructions and the integration page, checked for this client on 2026-11-21. The same record is in [docs/mcp.md](../../docs/mcp.md).

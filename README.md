@@ -1,6 +1,6 @@
 # VPSYOU MCP connection
 
-Hosted MCP server for reading CN2 latency and packet loss measured by the VPSYOU probe in Guangdong. Connect an AI client to the remote endpoint below. This repository is the connection guide for that hosted service.
+Hosted MCP server for reading CN2 latency and packet loss measured by the VPSYOU probe in Guangdong. Connect an AI client to the remote endpoint below, or build the read-only command-line client in this repository. This repository is the connection guide and that client. It does not contain the VPSYOU server implementation.
 
 The server address is:
 
@@ -32,7 +32,7 @@ The registry entry is active and lists version `1.0.0`. Its website is the Engli
 
 <https://registry.modelcontextprotocol.io/v0/servers?search=com.vpsyou/mcp>
 
-There is no local server to install from this repository, and no API key to paste into a client. The clients documented by VPSYOU sign in with OAuth and request approval for `cn2:read`.
+There is no local copy of the MCP server to install, and no API key to paste into a client. The clients documented by VPSYOU sign in with OAuth and request approval for `cn2:read`. The command-line client below is a separate from-source program that talks to the hosted endpoint.
 
 ## Authorization
 
@@ -217,9 +217,34 @@ When that happens:
 
 Sign in again from the client if a later request still returns 401 after you thought approval had finished. Do not paste an access token, client secret, or password into a config file or chat. This setup does not use a manually issued API key.
 
+## Command-line client
+
+`vpsyou-cn2` is a read-only client for `get_cn2_latency` on the fixed endpoint `https://vpsyou.com/mcp`. It is not published to npm. Build it from a checkout:
+
+```shell
+npm install
+npm run build
+node dist/src/cli.js --help
+```
+
+```shell
+node dist/src/cli.js login
+node dist/src/cli.js targets
+node dist/src/cli.js query --window live --json
+node dist/src/cli.js logout
+```
+
+`login` uses the official MCP TypeScript client (`@modelcontextprotocol/client` 2.4.0) for Streamable HTTP, protected-resource discovery, and OAuth with the authorization server's published registration endpoint. The browser step approves `cn2:read`. The SDK also sends `offline_access` when that scope is advertised and the client metadata includes the refresh-token grant. Tokens are written to a user-only file (`0600` on Unix) under `$XDG_CONFIG_HOME/vpsyou-cn2` or `~/.config/vpsyou-cn2`. `VPSYOU_CN2_CONFIG_DIR` changes that directory only. The command does not print the file, and there is no flag to point the client at another MCP host.
+
+`targets` and `query` read the current `get_cn2_latency` input schema after sign-in. `--window` accepts the schema's enum (`live`, `24h`, and `7d` in the schema checked on 2026-11-21). `--target` must be one of the schema's `targetId` values when that enum is present. Omit `--target` to omit `targetId`, which the schema allows. `--json` prints the tool payload, the endpoint, and `retrievedAt` (when the command received the response, not the probe time). Human output includes the same payload and the server's unit notes: Unix milliseconds, round-trip time in milliseconds, packet loss as a ratio from 0 to 1, and null for no observed data.
+
+The tests mock the MCP session and do not sign in or call the live tool. The interactive browser login is implemented and was not run against a user account.
+
+An agent skill for this command is in `skills/vpsyou-cn2-latency`. Copy that directory into the skills folder your agent host loads. It is not a marketplace listing.
+
 ## What this repository is
 
-This repository holds the connection guide and the client examples above. The MCP server runs as the hosted endpoint and is not published here.
+This repository holds the connection guide, the from-source read-only client, and the agent skill above. The MCP server runs as the hosted endpoint and is not published here.
 
 ## Sources checked on 2026-11-21
 
@@ -229,5 +254,6 @@ This repository holds the connection guide and the client examples above. The MC
 - MCP Registry search for `com.vpsyou/mcp`
 - The server’s published `get_cn2_latency` input schema and server instructions, read without calling the tool
 - The Claude, Codex, and Grok Bot guides linked from the VPSYOU integration page, for the client screens those products currently document
+- MCP TypeScript client 2.4.0 Streamable HTTP transport and OAuth client, including dynamic client registration when the authorization server publishes `registration_endpoint`: <https://ts.sdk.modelcontextprotocol.io/v2/clients/oauth>
 
 No tool call was made, so this guide has no measured latency or packet-loss sample. No directory listing was submitted.

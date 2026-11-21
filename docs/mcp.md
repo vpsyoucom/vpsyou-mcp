@@ -219,7 +219,7 @@ Sign in again from the client if a later request still returns 401 after you tho
 
 ## From-source client
 
-`vpsyou-cn2` calls `get_cn2_latency` on the fixed endpoint. It is not published to npm. The commands are in the [README](../README.md#command-line-client).
+`vpsyou-cn2` calls `get_cn2_latency` on the fixed endpoint. Install the published npm package with `npm install -g vpsyou-cn2`. This repository version is `0.1.1`. The commands are in the [README](../README.md#command-line-client).
 
 `login` uses `@modelcontextprotocol/client` 2.4.0 for Streamable HTTP, protected-resource discovery, and OAuth with the authorization server's published registration endpoint. The browser step approves `cn2:read`. The SDK also sends `offline_access` when that scope is advertised and the client metadata includes the refresh-token grant. Tokens are written to a user-only file (`0600` on Unix) under `$XDG_CONFIG_HOME/vpsyou-cn2` or `~/.config/vpsyou-cn2`. `VPSYOU_CN2_CONFIG_DIR` changes that directory only. The command does not print the file, and there is no flag to point the client at another MCP host.
 

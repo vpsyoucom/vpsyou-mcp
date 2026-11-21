@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { realpathSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 
 import { CLIENT_VERSION, MCP_ENDPOINT, TOOL_NAME } from "./constants.js";
@@ -84,7 +85,11 @@ Read CN2 latency and packet loss from the VPSYOU probe in Guangdong.
 The endpoint is fixed at ${MCP_ENDPOINT} (Streamable HTTP, OAuth).
 This client does not manage VPS instances and is not a global monitoring network.
 
-Install from a checkout of this repository, then build it. It is not an npm package.
+Install the published package:
+
+  npm install -g vpsyou-cn2
+
+From a checkout of this repository:
 
   npm install
   npm run build
@@ -270,7 +275,8 @@ function defaultRuntime(): Runtime {
 }
 
 const entry = process.argv[1];
-if (entry && import.meta.url === pathToFileURL(entry).href) {
+const entryUrl = entry ? pathToFileURL(realpathSync(entry)).href : "";
+if (entry && import.meta.url === entryUrl) {
   const code = await run(process.argv.slice(2));
   process.exit(code);
 }

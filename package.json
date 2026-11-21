@@ -1,15 +1,32 @@
 {
   "name": "vpsyou-cn2",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.1",
   "description": "Read-only command-line client for the hosted VPSYOU CN2 MCP server.",
   "type": "module",
+  "bin": {
+    "vpsyou-cn2": "./dist/src/cli.js"
+  },
+  "files": [
+    "dist/src",
+    "docs",
+    "skills",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vpsyoucom/vpsyou-mcp.git"
+  },
+  "homepage": "https://vpsyou.com",
+  "bugs": {
+    "url": "https://github.com/vpsyoucom/vpsyou-mcp/issues"
+  },
   "engines": {
     "node": ">=20"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "tsc -p tsconfig.json && node --test dist/test/*.test.js",
+    "prepack": "npm run build",
+    "test": "npm run build && node --test dist/test/*.test.js",
     "vpsyou-cn2": "node dist/src/cli.js"
   },
   "dependencies": {

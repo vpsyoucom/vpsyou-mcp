@@ -7,11 +7,18 @@ description: Use when someone asks for VPSYOU CN2 latency or packet loss from th
 
 Read latency and packet loss from the hosted VPSYOU MCP server at `https://vpsyou.com/mcp`. The only tool is `get_cn2_latency`. Measurements come from one ICMP probe in Guangdong. This is not VPS management and not a global monitoring network.
 
-Use the from-source client in the `vpsyou-mcp` checkout. The npm package name `vpsyou-cn2` is not published yet. Do not run `npx` or install it from the npm registry. Do not call an undocumented HTTP API.
+Use the `vpsyou-cn2` command. Do not call an undocumented HTTP API.
 
 ## Install
 
-From a checkout of this repository:
+Install the published npm package:
+
+```sh
+npm install -g vpsyou-cn2
+vpsyou-cn2 --help
+```
+
+The arguments below are the same after that install: replace `node dist/src/cli.js` with `vpsyou-cn2`. From a checkout of this repository:
 
 ```sh
 npm install

@@ -281,7 +281,7 @@ describe("help and skill", () => {
     const code = await run(["--help"], harness.runtime);
     assert.equal(code, 0);
     assert.match(harness.stdout.join(""), /vpsyou-cn2 login/);
-    assert.match(harness.stdout.join(""), /not yet published to npm/);
+    assert.match(harness.stdout.join(""), /npm install -g vpsyou-cn2/);
     assert.equal(helpText().includes(MCP_ENDPOINT), true);
     rmSync(directory, { recursive: true, force: true });
   });
@@ -316,7 +316,7 @@ describe("built cli", () => {
     try {
       const result = spawnSync(process.execPath, [link, "--help"], { encoding: "utf8" });
       assert.equal(result.status, 0);
-      assert.match(result.stdout, /not yet published to npm/);
+      assert.match(result.stdout, /npm install -g vpsyou-cn2/);
     } finally {
       rmSync(link, { force: true });
     }

@@ -1,6 +1,6 @@
 {
   "name": "vpsyou-cn2",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Read-only command-line client for the hosted VPSYOU CN2 MCP server.",
   "type": "module",
   "bin": {
@@ -16,7 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/vpsyoucom/vpsyou-mcp.git"
   },
-  "homepage": "https://github.com/vpsyoucom/vpsyou-mcp#readme",
+  "homepage": "https://vpsyou.com",
   "bugs": {
     "url": "https://github.com/vpsyoucom/vpsyou-mcp/issues"
   },

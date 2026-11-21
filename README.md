@@ -22,19 +22,23 @@ The checked connection record is [docs/mcp.md](docs/mcp.md): [OAuth metadata](do
 
 ## Command-line client
 
-`vpsyou-cn2` calls `get_cn2_latency` on the endpoint above. `package.json` names the package `vpsyou-cn2` at version `0.1.0`. It is not yet published to npm, so install it from a checkout:
+`vpsyou-cn2` calls `get_cn2_latency` on the endpoint above. The npm package name is `vpsyou-cn2`. This repository version is `0.1.1`.
+
+```shell
+npm install -g vpsyou-cn2
+vpsyou-cn2 --help
+vpsyou-cn2 login
+vpsyou-cn2 targets
+vpsyou-cn2 query --window live --json
+vpsyou-cn2 logout
+```
+
+From a checkout of this repository, the same arguments run as `node dist/src/cli.js`:
 
 ```shell
 npm install
 npm run build
 node dist/src/cli.js --help
-```
-
-```shell
-node dist/src/cli.js login
-node dist/src/cli.js targets
-node dist/src/cli.js query --window live --json
-node dist/src/cli.js logout
 ```
 
 `login` stores the sign-in in a user-only file and does not print it. `targets` lists the server's current windows and target ids. `query` defaults to `live`. Omit `--target` to omit `targetId`. Sign-in storage, scopes, and how to read the result are in [From-source client](docs/mcp.md#from-source-client).

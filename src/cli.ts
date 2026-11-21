@@ -85,8 +85,11 @@ Read CN2 latency and packet loss from the VPSYOU probe in Guangdong.
 The endpoint is fixed at ${MCP_ENDPOINT} (Streamable HTTP, OAuth).
 This client does not manage VPS instances and is not a global monitoring network.
 
-The package name is vpsyou-cn2. It is not yet published to npm.
-From a checkout of this repository, build it and run:
+Install the published package:
+
+  npm install -g vpsyou-cn2
+
+From a checkout of this repository:
 
   npm install
   npm run build

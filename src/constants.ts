@@ -5,7 +5,7 @@ export const TOOL_NAME = "get_cn2_latency";
 
 export const CLIENT_NAME = "vpsyou-cn2";
 
-export const CLIENT_VERSION = "0.1.0";
+export const CLIENT_VERSION = "0.1.1";
 
 /** Read-only scope from the protected-resource metadata and the integration guide. */
 export const READ_SCOPE = "cn2:read";

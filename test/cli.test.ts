@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync, statSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, statSync, symlinkSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { after, describe, it } from "node:test";
@@ -281,7 +281,7 @@ describe("help and skill", () => {
     const code = await run(["--help"], harness.runtime);
     assert.equal(code, 0);
     assert.match(harness.stdout.join(""), /vpsyou-cn2 login/);
-    assert.match(harness.stdout.join(""), /not an npm package/);
+    assert.match(harness.stdout.join(""), /not yet published to npm/);
     assert.equal(helpText().includes(MCP_ENDPOINT), true);
     rmSync(directory, { recursive: true, force: true });
   });
@@ -307,6 +307,19 @@ describe("built cli", () => {
     assert.equal(result.status, 0);
     assert.match(result.stdout, /vpsyou-cn2 login/);
     assert.equal(result.stdout.includes(SECRET), false);
+  });
+
+  it("prints help when the executable is a symlink", () => {
+    const cli = join(repoRoot(dirname(fileURLToPath(import.meta.url))), "dist", "src", "cli.js");
+    const link = join(tmpdir(), `vpsyou-cn2-link-${process.pid}`);
+    symlinkSync(cli, link);
+    try {
+      const result = spawnSync(process.execPath, [link, "--help"], { encoding: "utf8" });
+      assert.equal(result.status, 0);
+      assert.match(result.stdout, /not yet published to npm/);
+    } finally {
+      rmSync(link, { force: true });
+    }
   });
 });
 

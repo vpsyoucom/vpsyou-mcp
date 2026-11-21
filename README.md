@@ -22,7 +22,7 @@ The checked connection record is [docs/mcp.md](docs/mcp.md): [OAuth metadata](do
 
 ## Command-line client
 
-`vpsyou-cn2` calls `get_cn2_latency` on the endpoint above. It is not an npm package. From a checkout of this repository:
+`vpsyou-cn2` calls `get_cn2_latency` on the endpoint above. `package.json` names the package `vpsyou-cn2` at version `0.1.0`. It is not yet published to npm, so install it from a checkout:
 
 ```shell
 npm install

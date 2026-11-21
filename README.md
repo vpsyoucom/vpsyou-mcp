@@ -45,7 +45,7 @@ node dist/src/cli.js --help
 
 ## Agent skill
 
-Copy `skills/vpsyou-cn2-latency` into the skills folder your agent host loads. It is not a marketplace listing. The skill runs the same commands and links to [docs/mcp.md](docs/mcp.md).
+`skills/vpsyou-cn2-latency` version `0.1.1` is the ClawHub skill package. Its [LICENSE](skills/vpsyou-cn2-latency/LICENSE) is MIT-0 and applies only to that directory. Install the client with `npm install -g vpsyou-cn2`, then follow `SKILL.md`.
 
 ## What is in this repository
 

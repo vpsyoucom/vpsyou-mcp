@@ -1,0 +1,14 @@
+{
+  "name": "vpsyou-mcp",
+  "version": "0.1.1",
+  "description": "Read CN2 latency and packet loss from the VPSYOU probe in Guangdong.",
+  "mcpServers": {
+    "vpsyou-cn2": {
+      "httpUrl": "https://vpsyou.com/mcp",
+      "oauth": {
+        "enabled": true,
+        "scopes": ["cn2:read"]
+      }
+    }
+  }
+}

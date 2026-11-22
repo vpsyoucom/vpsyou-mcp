@@ -18,7 +18,7 @@ Official product guides:
 - 简体中文: <https://vpsyou.com/zh/mcp-integration>
 - 繁體中文: <https://vpsyou.com/zh-TW/mcp-integration>
 
-The checked connection record is [docs/mcp.md](docs/mcp.md): [OAuth metadata](docs/mcp.md#authorization), [request examples](docs/mcp.md#request-examples-from-the-integration-page), [target ids](docs/mcp.md#target-ids-advertised-on-2026-11-21), [Claude, Codex, and Grok Bot setup](docs/mcp.md#connect-a-documented-client), and [HTTP 401 troubleshooting](docs/mcp.md#oauth-and-http-401).
+The checked connection record is [docs/mcp.md](docs/mcp.md): [OAuth metadata](docs/mcp.md#authorization), [request examples](docs/mcp.md#request-examples-from-the-integration-page), [target ids](docs/mcp.md#target-ids-advertised-on-2026-11-21), [Claude, Codex, and Grok Bot setup](docs/mcp.md#connect-a-documented-client), [Gemini CLI](docs/mcp.md#gemini-cli), and [HTTP 401 troubleshooting](docs/mcp.md#oauth-and-http-401).
 
 ## Command-line client
 
@@ -42,6 +42,16 @@ node dist/src/cli.js --help
 ```
 
 `login` stores the sign-in in a user-only file and does not print it. `targets` lists the server's current windows and target ids. `query` defaults to `live`. Omit `--target` to omit `targetId`. Sign-in storage, scopes, and how to read the result are in [From-source client](docs/mcp.md#from-source-client).
+
+## Gemini CLI
+
+Install the extension from this public repository. It connects Gemini CLI to the hosted Streamable HTTP endpoint. It does not run the `vpsyou-cn2` npm package as a local server.
+
+```shell
+gemini extensions install https://github.com/vpsyoucom/vpsyou-mcp
+```
+
+In Gemini CLI, run `/mcp auth vpsyou-cn2` and approve read-only `cn2:read`. Gemini discovers the OAuth server from `https://vpsyou.com/mcp`. Details are in [Gemini CLI](docs/mcp.md#gemini-cli). This install path was not exercised with a signed-in Gemini session.
 
 ## Agent skill
 

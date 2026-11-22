@@ -137,7 +137,7 @@ Treat that list as a snapshot. The connected server’s current tool definition 
 - It is not a global monitoring network. A reading is the Guangdong probe’s path to a test endpoint at the reported measurement time.
 - Historical series on the integration page are hourly aggregates.
 - The only documented tool is `get_cn2_latency`, and the consent scope for that tool is read-only `cn2:read`.
-- VPSYOU’s integration page documents Claude, Codex, and Grok Bot. This guide does not add configuration for any other client, and it does not claim model compatibility.
+- VPSYOU’s integration page documents Claude, Codex, and Grok Bot. This repository also includes a Gemini CLI extension manifest. It does not claim model compatibility.
 
 ## Connect a documented client
 
@@ -195,6 +195,22 @@ Add the remote MCP server https://vpsyou.com/mcp as VPSYOU CN2 with OAuth. After
 ```
 
 To add it manually, VPSYOU links to <https://docs.x.ai/grok-bot/computer-and-apps#connect-an-app>. As of 2026-11-21 that guide says to choose **Add a custom connector** at the bottom of **Connect apps**, enter the name `VPSYOU CN2`, choose remote HTTPS, and set the server URL to `https://vpsyou.com/mcp`. The OAuth client ID field is optional there. Leave it empty for this server. Save with **Add plugin**, then finish Authorize or Authenticate in the browser. A team MCP policy can block saving the connector.
+
+### Gemini CLI
+
+The root file `gemini-extension.json` is a Gemini CLI extension named `vpsyou-mcp` at version `0.1.1`. Its MCP server entry is `vpsyou-cn2`. The transport field is `httpUrl`, which Gemini documents as Streamable HTTP, set to `https://vpsyou.com/mcp`. It is not the SSE `url` field, and it does not set `command` or `args`. The npm package `vpsyou-cn2` remains a separate command-line client.
+
+OAuth is enabled with scope `cn2:read`. The manifest does not set `issuer`, `clientId`, `authorizationUrl`, or `tokenUrl`. Gemini’s MCP documentation says those values are discovered from the server, and dynamic client registration is used when the server supports it. VPSYOU publishes that registration endpoint.
+
+Install Gemini CLI, then run:
+
+```shell
+gemini extensions install https://github.com/vpsyoucom/vpsyou-mcp
+```
+
+In Gemini CLI, run `/mcp auth vpsyou-cn2` and approve read-only `cn2:read`. Sign-in needs a local browser. This repository has not run that command against a signed-in account.
+
+Gemini’s extension gallery is a separate daily index of public repositories. Installing from the URL above does not depend on that gallery. Sources: <https://geminicli.com/docs/extensions/reference/> and <https://geminicli.com/docs/tools/mcp-server/>.
 
 ## OAuth and HTTP 401
 
